@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  mysql:
+    build: ./db
+    image: ahsansabir30/trio-db-jenkins
+    volumes: 
+    - type: volume
+      source: db_volume
+      target: /var/lib/mysql
+  flask-app:
+    build: ./flask-app
+    image: ahsansabir30/trio-app-jenkins
+    ports:
+    - target: 5000
+      published: 5000
+  nginx:
+    image: nginx:latest
+    volumes:
+    - type: bind
+      source: ./nginx/nginx.conf
+      target: /etc/nginx/nginx.conf
+    ports:
+    - target: 80
+      published: 80
+volumes:
+  db_volume:
